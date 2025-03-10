@@ -47,7 +47,9 @@ models = {
     'heart_disease': pickle.load(open('Models/heart_disease_model.sav', 'rb')),
     'parkinsons': pickle.load(open('Models/parkinsons_model.sav', 'rb')),
     'lung_cancer': pickle.load(open('Models/lungs_disease_model.sav', 'rb')),
-    'thyroid': pickle.load(open('Models/Thyroid_model.sav', 'rb'))
+    'thyroid': pickle.load(open('Models/Thyroid_model.sav', 'rb')),
+    'Cirrhosis': pickle.load(open("Models/Cirrhosis.sav",'rb'))
+   
 }
 
 # Create a dropdown menu for disease prediction
@@ -57,7 +59,12 @@ selected = st.selectbox(
      'Heart Disease Prediction',
      'Parkinsons Prediction',
      'Lung Cancer Prediction',
-     'Hypo-Thyroid Prediction']
+     'Hypo-Thyroid Prediction',
+     'Cirrhosis Prediction',
+    #  'Alzheimers Prediction',
+    #  'Liver Cancer Prediction',
+    #  'Kidney disease Prediction'
+     ]
 )
 
 def display_input(label, tooltip, key, type="text"):
@@ -190,3 +197,25 @@ if selected == "Hypo-Thyroid Prediction":
         thyroid_prediction = models['thyroid'].predict([[age, sex, on_thyroxine, tsh, t3_measured, t3, tt4]])
         thyroid_diagnosis = "The person has Hypo-Thyroid disease" if thyroid_prediction[0] == 1 else "The person does not have Hypo-Thyroid disease"
         st.success(thyroid_diagnosis)
+
+#Cirrhosis disease Prediction Page
+if selected =='Cirrhosis Prediction':
+    st.title("Cirrhosis")
+    st.write('Enter the following details to predict Alzheimer disease:')
+
+    age = display_input('Age', 'Enter age of the person', 'age', 'number')
+    sex = display_input('Gender (1 = Male; 0 = Female)', 'Enter sex of the person', 'sex', 'number')
+    Bilirubin = display_input('Bilirubin', 'Enter bilirubin of the person', 'Bilirubin', 'number')
+    Albumin = display_input('Albumin', 'Enter albumin of the person', 'Albumin', 'number')
+    Copper = display_input('Copper', 'Enter copper of the person', 'Copper', 'number')
+    Alk_Phos = display_input('Alk_Phos', 'Enter Alk_Phos', 'Alk_Phos', 'number')
+    SGOT = display_input('SGOT', 'Enter SGOT', 'SGOT', 'number')
+    Tryglicerides = display_input('Tryglicerides', 'Enter Ttryglicerides', 'Tryglicerides', 'number')
+    Platelets = display_input('Platelets', 'Enter Platelets', 'Platelets', 'number')
+    Cholesterol = display_input('Cholesterol', 'Enter Cholestrol', 'Cholesterol', 'number')
+
+    cirrhosis_diagnosis = ''
+    if st.button("Cirrhosis Test Result"):
+        cirrhosis_prediction = models['Cirrhosis'].predict([[age, sex,Bilirubin, Albumin , Copper,Alk_Phos, SGOT ,Tryglicerides, Platelets,Cholesterol]])
+        cirrhosis_diagnosis = "The person has Cirrhosis disease" if cirrhosis_prediction[0] == 1 else "The person does not have cirrhosis disease"
+        st.success(cirrhosis_diagnosis)
